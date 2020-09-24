@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PView</string>
+    <string name="app_name">Farm</string>
     <string name="login">Đăng nhập</string>
     <string name="list_video">Danh sách</string>
     <string name="name_video">Tên Video</string>
