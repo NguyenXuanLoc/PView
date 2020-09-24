@@ -2,4 +2,14 @@
     <string name="app_name">PView</string>
     <string name="login">Đăng nhập</string>
     <string name="list_video">Danh sách</string>
+    <string name="name_video">Tên Video</string>
+    <string name="name_channel">Tên Channel</string>
+    <string name="url_video">Đường dẫn</string>
+    <string name="insert">Thêm mới</string>
+    <string name="exit">Thoát</string>
+    <string name="insert_success">Thêm mới thành công.</string>
+    <string name="delete_all_success">Xóa tất cả thành công.</string>
+    <string name="start">Bắt đầu</string>
+    <string name="not_video">Không có video</string>
+    <string name="time_stop">Thời gian dừng</string>
 </resources>

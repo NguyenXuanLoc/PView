@@ -4,39 +4,33 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/green100</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
     </style>
 
     <style name="WhiteTheme" parent="AppTheme">
-        <item name="colorPrimary">@color/purple</item>
-        <item name="colorAccent">@color/purple</item>
         <item name="colorPrimaryDark">@color/white</item>
         <item name="android:statusBarColor" tools:targetApi="lollipop">@color/white</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="actionMenuTextColor">@color/blue</item>
-        <item name="android:windowBackground">@color/white</item>
     </style>
 
     <style name="TransparentStatusTheme" parent="AppTheme">
-        <item name="android:statusBarColor" tools:ignore="NewApi">@color/transparent</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/transparent</item>
     </style>
 
     <style name="IncomingCallTheme" parent="AppTheme">
         <item name="android:windowBackground">@color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:statusBarColor" tools:ignore="NewApi">@color/transparent</item>
-        <item name="android:navigationBarColor" tools:ignore="NewApi">@color/transparent</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/transparent</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/transparent</item>
     </style>
 
-    <style name="SplashTheme" parent="AppTheme">
-        <item name="android:statusBarColor" tools:ignore="NewApi">@color/transparent</item>
-        <item name="android:navigationBarColor" tools:ignore="NewApi">@color/transparent</item>
-    </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.Dialog">
         <item name="android:windowNoTitle">true</item>
+        <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@color/transparent</item>
     </style>
     <!-- End of themes -->
@@ -48,15 +42,70 @@
 
     <style name="ToolBarStyle">
         <item name="android:theme">@style/ThemeOverlay.MaterialComponents.Dark</item>
-        <item name="android:popupTheme" tools:ignore="NewApi">@style/PopUpTheme</item>
-        <item name="android:background">@color/white</item>
-        <item name="android:elevation" tools:ignore="NewApi">@dimen/dimen_05x</item>
-        <item name="android:contentInsetEnd" tools:ignore="NewApi">@dimen/zero</item>
+        <item name="android:popupTheme" tools:targetApi="lollipop">@style/PopUpTheme</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:elevation" tools:targetApi="lollipop">@dimen/dimen_05x</item>
+        <item name="android:contentInsetEnd" tools:targetApi="lollipop">@dimen/zero</item>
         <item name="contentInsetEndWithActions">@dimen/zero</item>
-        <item name="android:contentInsetStart" tools:ignore="NewApi">@dimen/zero</item>
+        <item name="android:contentInsetStart" tools:targetApi="lollipop">@dimen/zero</item>
         <item name="contentInsetStartWithNavigation">@dimen/zero</item>
     </style>
     <!-- End of Toolbar -->
+
+    <!-- Button styles -->
+    <style name="Button" parent="@android:style/Widget.Button">
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingBottom">@dimen/dimen_x1x</item>
+        <item name="android:paddingTop">@dimen/dimen_x1x</item>
+        <item name="android:paddingStart">@dimen/dimen_2x</item>
+        <item name="android:paddingEnd">@dimen/dimen_2x</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+    </style>
+
+    <style name="Button.Primary">
+        <item name="android:background">@drawable/btn_primary</item>
+    </style>
+
+    <style name="Button.PrimaryNotRadius">
+        <item name="android:background">@drawable/btn_primary_not_radius</item>
+    </style>
+
+    <style name="Button.Disable">
+        <item name="android:background">@drawable/btn_disable</item>
+        <item name="android:textColor">@color/textColorSecondary</item>
+    </style>
+
+    <style name="Button.Green">
+        <item name="android:background">@drawable/btn_green</item>
+    </style>
+
+    <style name="Button.RedNotRadius">
+        <item name="android:background">@drawable/btn_red_not_radius</item>
+    </style>
+
+    <style name="Button.PurpleNotRadius">
+        <item name="android:background">@drawable/btn_purple_not_radius</item>
+    </style>
+
+    <style name="Button.BlueRadius">
+        <item name="android:background">@drawable/btn_blue_radius</item>
+    </style>
+
+    <style name="Button.BlueStroke">
+        <item name="android:background">@drawable/btn_blue_stroke_radius</item>
+    </style>
+
+    <style name="Button.Orange">
+        <item name="android:background">@drawable/btn_orange</item>
+    </style>
+
+    <style name="Button.YellowNotRadius">
+        <item name="android:background">@drawable/btn_yellow_not_radius</item>
+    </style>
+    <!-- End of button -->
 
     <!-- Textview style -->
     <style name="TextView" parent="@android:style/Widget.TextView">
@@ -81,12 +130,17 @@
         <item name="android:fontFamily">@font/roboto_light</item>
     </style>
 
-    <style name="TextView.OTP">
-        <item name="android:layout_width">@dimen/dimen_6x</item>
-        <item name="android:layout_height">@dimen/dimen_6x</item>
-        <item name="android:maxLength">1</item>
+
+    <style name="TextView.Key">
+        <item name="android:layout_width">@dimen/zero</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/text_size_15</item>
+        <item name="android:textSize">@dimen/text_size_28</item>
+        <item name="android:paddingTop">@dimen/dimen_x1x</item>
+        <item name="android:paddingBottom">@dimen/dimen_x1x</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="elevation">@dimen/dimen_1x</item>
+        <item name="android:foreground">?android:selectableItemBackgroundBorderless</item>
     </style>
     <!-- End of Textview -->
 
@@ -96,7 +150,7 @@
         <item name="android:textColorHint">@color/grey</item>
         <item name="android:textSize">@dimen/text_size_14</item>
         <item name="android:selectAllOnFocus">true</item>
-        <item name="android:autofillHints" tools:ignore="NewApi">@string/app_name</item>
+        <item name="android:autofillHints" tools:targetApi="o">@string/app_name</item>
         <item name="android:paddingStart">@dimen/dimen_2x</item>
         <item name="android:paddingEnd">@dimen/dimen_2x</item>
         <item name="android:paddingTop">@dimen/dimen_x1x</item>
@@ -105,7 +159,6 @@
 
     <style name="EditText.Regular">
         <item name="android:fontFamily">@font/roboto_regular</item>
-        <item name="background">@color/white</item>
     </style>
 
     <style name="EditText.Medium">
@@ -120,8 +173,9 @@
     <!-- TabLayout -->
     <style name="TabLayout" parent="Widget.Design.TabLayout">
         <item name="android:background">@color/white</item>
-        <item name="tabIndicatorColor">@color/purple</item>
+        <item name="tabIndicatorColor">@color/orange</item>
         <item name="tabIndicatorFullWidth">false</item>
+        <item name="tabIndicator">@drawable/bn_radius_grey</item>
         <item name="tabPadding">@dimen/zero</item>
         <item name="tabTextColor">@color/textColorSecondary</item>
         <item name="tabSelectedTextColor">@color/textColorPrimary</item>
@@ -130,33 +184,11 @@
 
     <style name="TabTextAppearance" parent="@android:style/TextAppearance.Widget.TabWidget">
         <item name="android:fontFamily">@font/roboto_regular</item>
-        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textSize">@dimen/text_size_13</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:textStyle">bold</item>
     </style>
     <!-- End of TabLayout -->
 
-    <!--    Button-->
-    <style name="Button" parent="@android:style/Widget.Button">
-        <item name="android:textSize">@dimen/text_size_14</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:paddingBottom">@dimen/dimen_x1x</item>
-        <item name="android:paddingTop">@dimen/dimen_x1x</item>
-        <item name="android:paddingStart">@dimen/dimen_2x</item>
-        <item name="android:paddingEnd">@dimen/dimen_2x</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:gravity">center</item>
-        <item name="android:fontFamily">@font/roboto_bold</item>
-    </style>
-
-    <!--End Button-->
-
-    <!--    ProgressBar-->
-    <style name="AppTheme.GreenDark">
-        <item name="colorAccent">@color/greenDark</item> <!-- Whatever color you want-->
-    </style>
-
-    <!--    End ProgressBar-->
     <!--    BottomSheet-->
     <style name="BottomSheepDialogTheme" parent="Theme.Design.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheepStyle</item>
@@ -165,30 +197,4 @@
     <style name="BottomSheepStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="background">@color/transparent</item>
     </style>
-    <!-- End BottomSheet-->
-
-    <!--    BottomNavigation-->
-    <style name="BottomNavigation" parent="Widget.Design.BottomNavigationView">
-        <item name="fontFamily">@font/roboto_regular</item>
-        <item name="android:drawablePadding">@dimen/dimen_1x</item>
-    </style>
-
-    <!--  TabLayout-->
-    <style name="AppTabLayout" parent="Widget.Design.TabLayout">
-        <!--
-                <item name="tabIndicatorColor">@color/purple</item>
-        -->
-        <item name="tabIndicatorHeight">@dimen/dimen_05x</item>
-        <item name="tabPaddingStart">@dimen/dimen_05x</item>
-        <item name="tabPaddingEnd">@dimen/dimen_05x</item>
-        <!--
-                <item name="tabBackground">?attr/selectableItemBackground</item>
-        -->
-        <item name="tabTextAppearance">@style/TextView.Regular</item>
-        <!--
-                <item name="tabSelectedTextColor">@color/purple</item>
-        -->
-        <item name="tabTextColor">@color/greyBold</item>
-    </style>
-
 </resources>

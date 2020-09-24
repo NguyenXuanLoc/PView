@@ -12,11 +12,10 @@ fun WebView.settings() {
     this.settings.mediaPlaybackRequiresUserGesture = false
 }
 
-fun WebView.openWebView(url: String) {
+fun WebView.openWebView(url: String, v: WebViewInterface) {
     this.loadUrl(url)
     this.webViewClient = object : WebViewClient() {
         override fun onPageFinished(view: WebView?, url: String?) {
-            //wvContent.loadUrl("javascript:(function() { document.getElementsByTagName('video')[0].play(); })()");
             //save acc to webview
             view?.loadUrl(
                 "javascript:(function() { " +
@@ -24,6 +23,7 @@ fun WebView.openWebView(url: String) {
                         + "element.parentNode.removeChild(element);" +
                         "})()"
             )
+            v.loadPageSuccess()
             super.onPageFinished(view, url)
         }
     }
@@ -43,4 +43,5 @@ fun WebView.loadUrlAutoPlay(url: String, v: WebViewInterface) {
 
 interface WebViewInterface {
     fun readyPlayVideo()
+    fun loadPageSuccess()
 }

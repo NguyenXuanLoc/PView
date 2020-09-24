@@ -10,6 +10,8 @@ import com.example.pview.R
 import com.example.pview.common.ext.gone
 import com.example.pview.common.ext.visible
 import com.example.pview.common.util.CommonUtil
+import com.example.pview.data.video.VideoDatabase
+import com.example.pview.widget.progressbar.MyProgressDialog
 import kotlinx.android.synthetic.main.activity_base.*
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.ctx
@@ -19,6 +21,7 @@ abstract class BaseActivity<V : BaseView, P : BasePresenterImp<V>> : AppCompatAc
 
     protected val self by lazy { this }
     protected lateinit var presenter: P
+    val database: VideoDatabase by lazy { VideoDatabase.getInstance(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

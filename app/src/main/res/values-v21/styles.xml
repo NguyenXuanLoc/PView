@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="IncomingCallTheme" parent="AppTheme">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+        <item name="android:navigationBarColor">@color/transparent</item>
+    </style>
+
+    <style name="ToolBarStyle">
+        <item name="android:theme">@style/ThemeOverlay.MaterialComponents.Dark</item>
+        <item name="android:popupTheme">@style/PopUpTheme</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:elevation">@dimen/dimen_05x</item>
+        <item name="android:contentInsetEnd">@dimen/zero</item>
+        <item name="contentInsetEndWithActions">@dimen/zero</item>
+        <item name="android:contentInsetStart">@dimen/zero</item>
+        <item name="contentInsetStartWithNavigation">@dimen/zero</item>
+    </style>
+</resources>

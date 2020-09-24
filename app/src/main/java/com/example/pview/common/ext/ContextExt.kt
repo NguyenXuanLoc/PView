@@ -10,7 +10,6 @@ import android.telecom.TelecomManager
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.google.firebase.iid.FirebaseInstanceId
 import org.json.JSONObject
 import timber.log.Timber
 
@@ -24,18 +23,6 @@ fun Context.networkIsConnected(): Boolean {
     }
 
     return false
-}
-
-fun Context.getFirebaseInstanceToken(onComplete: (String?) -> Unit) {
-    FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
-        if (it.isSuccessful) {
-            it.result?.run {
-                onComplete(token)
-            } ?: onComplete(null)
-        } else {
-            onComplete(null)
-        }
-    }
 }
 
 
@@ -63,11 +50,6 @@ fun Context.openAppSettingsPage() {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-fun Context.isDefaultDialerApp(): Boolean {
-    val telecomManager = getSystemService(Context.TELECOM_SERVICE) as TelecomManager?
-    return packageName == telecomManager?.defaultDialerPackage
-}
 
 fun Context.convertMapToJSONObject(map: Map<String, Any?>): JSONObject {
     val jsonObject = JSONObject()

@@ -1,24 +1,35 @@
 package com.example.pview.ui.main
 
+import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.MenuItem
 import com.example.pview.R
-import com.example.pview.common.ext.WebViewInterface
-import com.example.pview.common.ext.loadUrlAutoPlay
-import com.example.pview.common.ext.openActivity
-import com.example.pview.common.ext.settings
+import com.example.pview.common.ext.*
+import com.example.pview.common.util.RxBus
+import com.example.pview.data.video.VideoEventModel
+import com.example.pview.data.video.VideoModel
 import com.example.pview.ui.base.BaseActivity
 import com.example.pview.ui.list.ListVideoActivity
 import com.example.pview.ui.login.LoginActivity
+import com.example.pview.ui.test.TestActivity
+import com.example.pview.widget.progressbar.DialogFinish
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.toast
 import timber.log.Timber
 
 class MainActivity : BaseActivity<MainView, MainPresenterImp>(), MainView,
     BottomNavigationView.OnNavigationItemSelectedListener, WebViewInterface {
+    private val dialogFinish by lazy { DialogFinish(self) }
     private var index = 0
-    private var list: ArrayList<String> = ArrayList()
+    private var videos = ArrayList<VideoModel>()
+    private var time = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        database.userDao().deleteAll()
+    }
     override fun initView(): MainView {
         return this
     }
@@ -33,13 +44,26 @@ class MainActivity : BaseActivity<MainView, MainPresenterImp>(), MainView,
 
     override fun initWidgets() {
         hideToolbarBase()
-        test()
         wvContent.settings()
-        wvContent.loadUrlAutoPlay(
-            list[index], this
-        )
-//        playVideo("http://onmobi.vn/video/detail/26588/cua-da-nong-noc-au-trung-chuon-chuon-lam-tat-voi-la-chua-rung-bang-ong-nua-doi-song-tay-bac?click_source=default&click_medium=video_new")
+        presenter.readAllVideo(database)
         bnvOptions.setOnNavigationItemSelectedListener(this)
+        btnStart.setOnSafeClickListener {
+            if (videos.size > 0) {
+                time = edtTime.text.toString().toInt()
+                edtTime.gone()
+                imgNotify.gone()
+                pbLoading.visible()
+                setTextCount("${1 + index}/${videos.size}")
+                wvContent.loadUrlAutoPlay(
+                    videos[index].url, this
+                )
+            } else {
+                toast(R.string.not_video)
+            }
+        }
+        edtTime.setOnSafeClickListener {
+            edtTime.setText("")
+        }
     }
 
 
@@ -48,35 +72,33 @@ class MainActivity : BaseActivity<MainView, MainPresenterImp>(), MainView,
         var step = 1000.toLong()
         object : CountDownTimer(tTime, step), WebViewInterface {
             override fun onTick(millisUntilFinished: Long) {
-                Log.e("TAG", millisUntilFinished.toString())
+                lblCount.visible()
+                lblCount.text = "${millisUntilFinished.toInt() / 1000}s"
             }
 
             override fun onFinish() {
-                if (index < list.size) {
+                if (index < videos.size) {
+                    lblCount.text = "..."
+                    pbLoading.visible()
+                    setTextCount("${1 + index}/${videos.size}")
                     wvContent.loadUrlAutoPlay(
-                        list[index], this
+                        videos[index].url, this
                     )
                     index++
-                    Log.e("TAG", "play: $index")
                 } else {
-                    Log.e("TAG", "play xong")
+                    index = 0;
+                    dialogFinish.show()
                 }
             }
 
             override fun readyPlayVideo() {
-                countDowTimber(10)
-                Log.e("TAG", "READY")
-                Timber.e("READY")
+                pbLoading.gone()
+                countDowTimber(time)
+            }
+
+            override fun loadPageSuccess() {
             }
         }.start()
-    }
-
-    private fun test() {
-        list.add("http://onmobi.vn/video/detail/27566/danh-tiet-canh-ngan-bang-nuoc-khe-suoi-bua-trua-giua-rung-cua-anh-em-doi-song-tay-bac?click_source=default&click_medium=related_of_video_26588")
-        list.add("http://onmobi.vn/video/detail/28020/dua-dau-ve-que-huong-yen-chau-son-la-p2-tai-tay-bac?click_source=default&click_medium=related_of_video_27566")
-        list.add("http://onmobi.vn/video/detail/28017/doi-song-tay-bac-dua-dau-ve-que-huong-yen-chau-son-la-p2?click_source=default&click_medium=related_of_video_28020")
-        list.add("http://onmobi.vn/video/detail/23950/du-khach-tay-cung-lay-dien-thoai-de-quay-khi-quang-binh-noi-tieng-anh-thong-minh?click_source=default&click_medium=related_of_video_28017")
-
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -92,8 +114,34 @@ class MainActivity : BaseActivity<MainView, MainPresenterImp>(), MainView,
     }
 
     override fun readyPlayVideo() {
-        countDowTimber(10)
-        Log.e("TAG", "READY")
-        Timber.e("READY")
+        countDowTimber(time)
     }
+
+    override fun loadPageSuccess() {
+
+    }
+
+    override fun loadAllVideosSuccess(list: ArrayList<VideoModel>) {
+        if (list.size > 0) {
+            wvContent.visible()
+            imgNotify.setImage(R.drawable.ic_launch)
+            videos.addAll(list)
+        } else {
+            wvContent.gone()
+            imgNotify.visible()
+        }
+        Log.e("TAG", list.size.toString())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (videos.isEmpty()) {
+            presenter.readAllVideo(database)
+        }
+    }
+
+    fun setTextCount(text: String) {
+        btnStart.text = text
+    }
+
 }
