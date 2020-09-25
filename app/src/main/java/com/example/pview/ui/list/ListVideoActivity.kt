@@ -13,10 +13,8 @@ import com.example.pview.widget.progressbar.DiaLogInsertVideo
 import kotlinx.android.synthetic.main.activity_list.*
 import org.jetbrains.anko.toast
 
-class ListVideoActivity : BaseActivity<ListVideoView, ListVideoPresenterImp>(), ListVideoView,
-    DiaLogInsertVideo.InsertVideoListener {
+class ListVideoActivity : BaseActivity<ListVideoView, ListVideoPresenterImp>(), ListVideoView {
     private var videos = ArrayList<VideoModel>()
-    private val dialogInsert by lazy { DiaLogInsertVideo(self) }
     private val adapter by lazy {
         ListVideoAdapter(self, videos) { it -> onClickDelete(it) }
     }
@@ -42,11 +40,14 @@ class ListVideoActivity : BaseActivity<ListVideoView, ListVideoPresenterImp>(), 
         rclVideo.setHasFixedSize(true)
 
         presenter.readAllVideo(database)
-        dialogInsert.setInsertVideoListener(this)
-        btnAdd.setOnSafeClickListener {
-            dialogInsert.show()
-        }
 
+        btnInsert.setOnSafeClickListener {
+            presenter.insertData(VideoModel(url = edtUrl.text.toString()), database);
+            edtUrl.setText("")
+        }
+        btnExit.setOnSafeClickListener {
+            finish()
+        }
     }
 
     override fun loadVideoSuccess(list: List<VideoModel>) {
@@ -73,14 +74,6 @@ class ListVideoActivity : BaseActivity<ListVideoView, ListVideoPresenterImp>(), 
     private fun onClickDelete(model: VideoModel) {
         videos.remove(model)
         adapter.notifyDataSetChanged()
-    }
-
-    override fun insert(model: VideoModel) {
-        presenter.insertData(model, database)
-    }
-
-    override fun exitDialog() {
-        dialogInsert.dismiss()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
